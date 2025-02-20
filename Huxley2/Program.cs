@@ -6,54 +6,33 @@ using System.Runtime.InteropServices;
 
 namespace Huxley2
 {
-   public static class Program
-   {
-       public static void Main(string[] args)
-       {
-           CreateHostBuilder(args).Build().Run();
-       }
+    public static class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
 
-       public static IHostBuilder CreateHostBuilder(string[] args) =>
-           // CreateDefaultBuilder adds default configuration sources and logging providers
-           Host.CreateDefaultBuilder(args)
-               // To enable debug logging, uncomment this ConfigureLogging block
-               //.ConfigureLogging(logging =>
-               //{
-               //    logging.ClearProviders();
-               //    logging.AddConsole();
-               //    logging.AddDebug();
-               //    logging.SetMinimumLevel(LogLevel.Debug);
-               //})
-               .ConfigureWebHostDefaults(webBuilder =>
-               {
-                   webBuilder.UseStartup<Startup>();
-                   webBuilder.UseKestrel(options =>
-                   {
-                       if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                       {
-                           // Explicit port binding for Linux environments (e.g. Docker)
-                           options.ListenAnyIP(80);
-                       }
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            // CreateDefaultBuilder adds Console, Debug, EventSource and EventLog (Windows only from Core 3+) logging providers
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    {
+                        // Workaround for HTTP2 bug in .NET Core 3.1 and Windows 8.1 / Server 2012 R2
+                        // Missing ciphers when hosting in console (not behind IIS) and using HTTPS
+                        webBuilder.UseKestrel(options =>
+                            options.ConfigureEndpointDefaults(defaults =>
+                                defaults.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http1
+                            )
+                        );
+                        // Need to call these again so we can still use IIS if desired
+                        webBuilder.UseIIS();
+                        webBuilder.UseIISIntegration();
+                    }
+                });
 
-                       options.ConfigureEndpointDefaults(defaults =>
-                       {
-                           // To enable connection logging, uncomment this line
-                           //defaults.UseConnectionLogging();
-
-                           if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                           {
-                               // HTTP/2 bug workaround for Windows 8.1/Server 2012 R2
-                               defaults.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http1;
-                           }
-                       });
-                   });
-                   
-                   if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                   {
-                       // Windows-specific IIS configuration
-                       webBuilder.UseIIS();
-                       webBuilder.UseIISIntegration();
-                   }
-               });
-   }
+    }
 }
