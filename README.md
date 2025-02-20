@@ -13,9 +13,9 @@ failed to solve: process "/bin/sh -c dotnet publish -c Release -o out   --no-res
 --runtime alpine-arm64   --self-contained true   /p:PublishTrimmed=true   
 /p:PublishSingleFile=true" did not complete successfully: exit code: 1
 ```
-To remedy this I had to set `PublishTrimmed=false` in the Dockerfile
+To remedy this I had to set `PublishTrimmed=false`.
 
-## Changes to PropertyGroup in Huxley2.csproj ##
+## Changes to Huxley2.csproj ##
 
 Initially the build complained 
    `==> ERROR [huxley2 build-env 4/6] RUN dotnet restore --runtime alpine-arm64`
@@ -24,7 +24,21 @@ Accoding to [.NET SDK uses a smaller RID graph](https://learn.microsoft.com/en-u
 
 To remedy I followed the recommended action and added 
 `<UseRidGraph>true</UseRidGraph>`
-to the PropertyGroup in Huxley2.csproj
+to the PropertyGroup.
+
+## Changes to Program.cs ##
+
+Added explicit port binding for Linux - connections weren't reaching the processes without this (not sure if this is Linux and/or Docker specific)
+```
+if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
+   {
+      // Explicit port binding for Linux environments (with Docker)
+      options.ListenAnyIP(80);
+   }
+```
+Also added some blocks to uncomment if you want to see oodles of debugging info.
+I'll not reproduce that here, just look in the code if needed
+
 
 ---
 
