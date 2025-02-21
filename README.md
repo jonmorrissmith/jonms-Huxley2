@@ -2,6 +2,8 @@
 
 A fork of [James Singleton's masterful Huxley2](https://github.com/jpsingleton/Huxley2) with changes I needed to make to allow it to run locally via Docker on a Raspberry Pi.
 
+**Important Note** this is almost certainly not the repo you're looking for if you want to run on Azure - use the original Huxley2 repo for that.
+
 ## Changes to Dockerfile ##
 
 Changed to run using alpine-arm64 as alpine-x64 woudn't build on a Pi (or a Mac).
