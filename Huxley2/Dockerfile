@@ -3,15 +3,15 @@ WORKDIR /app
 
 # Copy csproj and restore as distinct layers
 COPY *.csproj ./
-RUN dotnet restore --runtime alpine-x64
+RUN dotnet restore --runtime alpine-arm64
 
 # Copy everything else and build
 COPY . ./
 RUN dotnet publish -c Release -o out \
   --no-restore \
-  --runtime alpine-x64 \
+  --runtime alpine-arm64 \
   --self-contained true \
-  /p:PublishTrimmed=true \
+  /p:PublishTrimmed=false \
   /p:PublishSingleFile=true
 
 
