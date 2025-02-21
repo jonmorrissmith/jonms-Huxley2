@@ -42,7 +42,8 @@ I'll not reproduce that here, just look in the code if needed
 
 ---
 
-# Huxley 2 Community Edition
+# _Text below is from [James Singleton's Huxley2 Repo](https://github.com/jpsingleton/Huxley2)_
+# Huxley 2 Community Edition 
 
 A cross-platform JSON proxy for the GB railway Live Departure Boards SOAP API
 
