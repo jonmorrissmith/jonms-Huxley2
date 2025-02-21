@@ -2,6 +2,8 @@
 
 A fork of [James Singleton's masterful Huxley2](https://github.com/jpsingleton/Huxley2) with changes I needed to make to allow it to run locally via Docker on a Raspberry Pi.
 
+**Important Note** this is almost certainly not the repo you're looking for if you want to run on Azure - use the original Huxley2 repo for that.
+
 ## Changes to Dockerfile ##
 
 Changed to run using alpine-arm64 as alpine-x64 woudn't build on a Pi (or a Mac).
@@ -22,7 +24,7 @@ Initially the build complained
 
 Accoding to [.NET SDK uses a smaller RID graph](https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/8.0/rid-graph) alpine-arm64 is deprecated.
 
-To remedy I followed the recommended action and added 
+Followed the recommended action and added 
 `<UseRidGraph>true</UseRidGraph>`
 to the PropertyGroup.
 
@@ -39,10 +41,20 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
 Also added some blocks to uncomment if you want to see oodles of debugging info.
 I'll not reproduce that here, just look in the code if needed
 
+## Changes to appsettings.json ##
 
+Added configuration for Kestrel to accept Http1AndHttp2 (this may note be required)
+```
+"Kestrel": {
+   "EndpointDefaults": {
+      "Protocols": "Http1AndHttp2"
+   }
+},
+```
+Also added debugging options (using Trace for Kestrel is very useful
+
+_Text below is from [James Singleton's Huxley2 Repo](https://github.com/jpsingleton/Huxley2)_
 ---
-
-# _Text below is from [James Singleton's Huxley2 Repo](https://github.com/jpsingleton/Huxley2)_
 # Huxley 2 Community Edition 
 
 A cross-platform JSON proxy for the GB railway Live Departure Boards SOAP API
