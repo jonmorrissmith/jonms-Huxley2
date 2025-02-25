@@ -43,15 +43,7 @@ I'll not reproduce that here, just look in the code if needed
 
 ## Changes to appsettings.json ##
 
-Added configuration for Kestrel to accept Http1AndHttp2 (this may note be required)
-```
-"Kestrel": {
-   "EndpointDefaults": {
-      "Protocols": "Http1AndHttp2"
-   }
-},
-```
-Also added debugging options (using Trace for Kestrel is very useful
+Added debugging options (using Trace for Kestrel is very useful
 
 _Text below is from [James Singleton's Huxley2 Repo](https://github.com/jpsingleton/Huxley2)_
 ---
