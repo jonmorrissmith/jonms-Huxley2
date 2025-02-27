@@ -91,4 +91,12 @@ If you want to run the container in the background you can run `docker-compose u
 
 If you would like the docker container to _reboot upon restart_ on the host machine you can uncomment `restart: always` in the docker-compose.yml file and make sure the docker service is set to start upon bootup.
 
+# Huxley2 and the RGB Matrix Train Departure Board #
 
+You can run Huxley2 on the same Raspberry Pi as the [RGB Matrix Train Departure Board](https://github.com/jonmorrissmith/RGB_Matrix_Train_Departure_Board).
+
+Set the APIURL to `http://localhost:8081` in the configuration file or via the UI
+
+The increased load of running both may introduce some flickering when the API is queried for updates.
+
+Tweaking parameters may alleviate this, or you could run Huxley2 on a separate Raspberry Pi.
