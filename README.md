@@ -1,10 +1,10 @@
 # Huxley 2 for Raspberry Pi
 
-A fork of [James Singleton's masterful Huxley2](https://github.com/jpsingleton/Huxley2) with changes I needed to make to allow it to run locally via Docker on a Raspberry Pi.
+A fork of [James Singleton's masterful Huxley2](https://github.com/jpsingleton/Huxley2) with changes to run locally on a Raspberry Pi.
 
-**Important Note** use the original repo for all other platforms, usage instruction and other configuration options along with the license applied.
+**Important** Refer to [Huxley2](https://github.com/jpsingleton/Huxley2) for usage, licensing and updates.
 
-The list of customisations is available in the Raspberry Pi Changes file.
+The list of customisations here is in [Pi Customisations](https://github.com/jonmorrissmith/jonms-Huxley2/blob/master/Pi_Customisations.md)
 
 # Get access to the train data #
 
@@ -20,7 +20,7 @@ Make a note of the key (although they email it to you aswell).
 
 There are more tutorials than you can shake a stick at on how to install an OS on a Raspberry Pi.
 
-I went for the 'OS Lite (64bit)' maximise CPU cycles the matrix driver can use by having a cut-down OS. 
+I went for the '**OS Lite (64bit)**' to maximise CPU cycles by having a cut-down OS. 
 
 Set up ssh and Wifi in the Raspberry Pi Imager tool.
 
@@ -70,7 +70,7 @@ sudo apt install jq
 
 Create an `.env` file in the `Huxley2` directory with the access tokens. You can delete the ones you're not using.
 
-Chances are you'll just need the ACCESS_TOKEN - see [Huxley2](https://github.com/jpsingleton/Huxley2) for more detail on this and the `CLIENT_ACCESS_TOKEN`. 
+Chances are you'll just need the ACCESS_TOKEN - see [Huxley2](https://github.com/jpsingleton/Huxley2) for more detail. 
 
 Example `.env` file:
 ```env
@@ -90,7 +90,5 @@ To rebuild use `docker-compose build` or `docker-compose up --build`.
 If you want to run the container in the background you can run `docker-compose up --detach`
 
 If you would like the docker container to _reboot upon restart_ on the host machine you can uncomment `restart: always` in the docker-compose.yml file and make sure the docker service is set to start upon bootup.
-
-# Additional Information
 
 
