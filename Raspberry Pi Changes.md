@@ -1,8 +1,6 @@
-# Huxley 2 for Raspberry Pi
+# Changes put in place for execution on a Raspberry Pi
 
 A fork of [James Singleton's masterful Huxley2](https://github.com/jpsingleton/Huxley2) with changes I needed to make to allow it to run locally via Docker on a Raspberry Pi.
-
-**Important Note** this is almost certainly not the repo you're looking for if you want to run on Azure - use the original Huxley2 repo for that.
 
 ## Changes to Dockerfile ##
 
