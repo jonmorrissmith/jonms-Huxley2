@@ -1,6 +1,6 @@
 # Huxley 2 for Raspberry Pi
 
-A fork of [James Singleton's masterful Huxley2](https://github.com/jpsingleton/Huxley2) with changes to run locally on a Raspberry Pi.
+A fork of [James Singleton's Huxley2](https://github.com/jpsingleton/Huxley2) repository with changes to run locally on a Raspberry Pi.
 
 **Important** Refer to [Huxley2](https://github.com/jpsingleton/Huxley2) for usage, licensing and updates.
 
