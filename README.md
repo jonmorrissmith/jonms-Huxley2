@@ -36,7 +36,7 @@ The _Raspberry Pi RGB Departure Board_ repo has information for removing unecess
 
 The default docker install is somewhat crufty - follow the [Debian Docker install instructions](https://docs.docker.com/engine/install/debian/).
 
-I'll not reproduce those here as they may well change over time.  The latest version of docker at the time of writing was used.
+I'll not reproduce those here as they may well change over time.
 
 **Important** Don't forget the [post-installation steps](https://docs.docker.com/engine/install/linux-postinstall/)
 
@@ -44,7 +44,7 @@ I'll not reproduce those here as they may well change over time.  The latest ver
 
 Refer to the [Microsoft installation instructions](https://learn.microsoft.com/en-us/dotnet/iot/deployment)
 
-At the time of writing (Feb 2025) the latest version of the SDK is 8.0.402 according to [.Net 8 release notes](https://github.com/dotnet/core/blob/main/release-notes/8.0/README.md)
+At the time of writing (Feb 2025) the latest version of the .Net 8 SDK is 8.0.402 according to [.Net 8 release notes](https://github.com/dotnet/core/blob/main/release-notes/8.0/README.md)
 
 A dry-run first is always a good idea.
 ```
