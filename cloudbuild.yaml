@@ -65,3 +65,7 @@ images:
 
 # Configure timeout if needed
 timeout: 1800s
+
+# Logging options
+options:
+  logging: CLOUD_LOGGING_ONLY
