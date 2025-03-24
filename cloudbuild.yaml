@@ -1,0 +1,67 @@
+# cloudbuild.yaml
+steps:
+  # Install .NET 8.0 SDK
+  - name: 'gcr.io/cloud-builders/apt-get'
+    args: ['update']
+  - name: 'gcr.io/cloud-builders/apt-get'
+    args: ['install', '-y', 'wget']
+  - name: 'gcr.io/cloud-builders/bash'
+    script: |
+      #!/bin/bash
+      wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+      dpkg -i packages-microsoft-prod.deb
+      apt-get update
+      apt-get install -y apt-transport-https
+      apt-get update
+      apt-get install -y dotnet-sdk-8.0
+
+  # Build the application
+  - name: 'gcr.io/cloud-builders/dotnet'
+    args: ['build', '--configuration', 'Release']
+    env:
+      - 'DOTNET_CLI_TELEMETRY_OPTOUT=true'
+      - 'DOTNET_NOLOGO=true'
+
+  # Run tests with code coverage
+  - name: 'gcr.io/cloud-builders/dotnet'
+    args: ['test', '**/*Tests/*.csproj', '--configuration', 'Release', '--collect:"XPlat Code Coverage"']
+    env:
+      - 'DOTNET_CLI_TELEMETRY_OPTOUT=true'
+      - 'DOTNET_NOLOGO=true'
+
+  # Publish the application
+  - name: 'gcr.io/cloud-builders/dotnet'
+    args: ['publish', '**/Huxley2.csproj', '--configuration', 'Release', '--output', '/workspace/publish']
+    env:
+      - 'DOTNET_CLI_TELEMETRY_OPTOUT=true'
+      - 'DOTNET_NOLOGO=true'
+
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/huxley2:$COMMIT_SHA', '-f', 'Dockerfile', '.']
+
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/huxley2:$COMMIT_SHA']
+
+  # Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'huxley2'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/huxley2:$COMMIT_SHA'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+
+# Store images in Google Container Registry
+images:
+  - 'gcr.io/$PROJECT_ID/huxley2:$COMMIT_SHA'
+
+# Configure timeout if needed
+timeout: 1800s
